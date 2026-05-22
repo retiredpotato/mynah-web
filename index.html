@@ -63,11 +63,11 @@
 
     <div class="wave" id="wave"></div>
 
-    <h1>You're all set</h1>
-    <p>Your 7-day free trial is active.<br>Mynah is unlocking automatically — returning you to the app now.</p>
+    <h1 id="title">You're all set</h1>
+    <p id="body">Your 7-day free trial is active.<br>Mynah is unlocking automatically — returning you to the app now.</p>
 
     <a class="btn" href="mynah://welcome">Return to Mynah</a>
-    <div class="hint">If the app doesn't reopen, switch to it manually — you're already unlocked. You can close this tab.</div>
+    <div class="hint" id="hint">If the app doesn't reopen, switch to it manually — you're already unlocked. You can close this tab.</div>
   </div>
 
 <script>
@@ -79,8 +79,18 @@
     s.style.opacity = 0.55 + Math.random() * 0.4;
     wave.appendChild(s);
   }
-  // auto-return to the app shortly after landing
-  setTimeout(() => { window.location.href = 'mynah://welcome'; }, 1600);
+
+  const canceled = new URLSearchParams(location.search).get('status') === 'cancel';
+  if (canceled) {
+    document.getElementById('title').textContent = 'Checkout canceled';
+    document.getElementById('body').innerHTML = 'No charge was made.<br>You can start your free trial any time from the Mynah app.';
+    document.getElementById('hint').textContent = 'You can close this tab.';
+    document.querySelector('.check path').style.display = 'none';
+    document.querySelector('.check circle').style.stroke = '#9a6700';
+  } else {
+    // auto-return to the app shortly after landing
+    setTimeout(() => { window.location.href = 'mynah://welcome'; }, 1600);
+  }
 </script>
 </body>
 </html>
