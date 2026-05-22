@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mynah — You're all set</title>
+<style>
+  :root { --amber:#F5B042; --amber-hi:#FFC75A; --purple:#8B5CF6; --teal:#2DD4BF; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    font-family:-apple-system,"SF Pro Display","Helvetica Neue",sans-serif;
+    background:#05060f; color:#F4F1EA; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  /* flowing aurora */
+  .aurora { position:fixed; inset:-30%; filter:blur(90px); opacity:.55; z-index:0; }
+  .blob { position:absolute; border-radius:50%; }
+  .b1 { width:48vw; height:48vw; background:var(--purple); top:-10%; left:-5%;
+        animation:drift1 14s ease-in-out infinite; }
+  .b2 { width:42vw; height:42vw; background:var(--teal); bottom:-12%; right:-5%;
+        animation:drift2 16s ease-in-out infinite; }
+  @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(8%,10%)} }
+  @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-9%,-8%)} }
+
+  .card { position:relative; z-index:1; text-align:center; max-width:480px; padding:48px 40px; }
+  .mark { width:84px; height:84px; border-radius:20px; margin:0 auto 28px;
+    background:linear-gradient(135deg,#11152e,#05060f);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 40px rgba(139,92,246,.45); }
+  .check { width:40px; height:40px; }
+  .check circle { stroke:var(--teal); stroke-width:3; fill:none;
+    stroke-dasharray:126; stroke-dashoffset:126; animation:draw .6s ease forwards .2s; }
+  .check path { stroke:var(--teal); stroke-width:4; fill:none; stroke-linecap:round;
+    stroke-dasharray:40; stroke-dashoffset:40; animation:draw .4s ease forwards .7s; }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+
+  h1 { font-size:30px; font-weight:700; letter-spacing:-.5px; margin-bottom:12px;
+    background:linear-gradient(90deg,#fff,var(--purple)); -webkit-background-clip:text;
+    background-clip:text; color:transparent; }
+  p { font-size:15px; line-height:1.55; color:#A8ACB8; margin-bottom:28px; }
+  .btn { display:inline-block; text-decoration:none; font-size:14.5px; font-weight:600;
+    color:#0a0a0a; padding:13px 28px; border-radius:11px;
+    background:linear-gradient(180deg,var(--amber-hi),var(--amber));
+    box-shadow:0 8px 24px rgba(245,176,66,.35); transition:transform .15s, box-shadow .15s; }
+  .btn:hover { transform:translateY(-1px); box-shadow:0 12px 30px rgba(245,176,66,.5); }
+  .hint { margin-top:22px; font-size:12.5px; color:#6B6F7D; }
+
+  /* waveform */
+  .wave { display:flex; gap:4px; justify-content:center; align-items:center; height:34px; margin:0 auto 30px; }
+  .wave span { width:3px; border-radius:3px;
+    background:linear-gradient(var(--purple),var(--teal)); animation:bar 1.1s ease-in-out infinite; }
+  @keyframes bar { 0%,100%{height:6px} 50%{height:30px} }
+</style>
+</head>
+<body>
+  <div class="aurora"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+  <div class="card">
+    <div class="mark">
+      <svg class="check" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20"/><path d="M14 23l6 6 11-13"/></svg>
+    </div>
+
+    <div class="wave" id="wave"></div>
+
+    <h1>You're all set</h1>
+    <p>Your 7-day free trial is active.<br>Mynah is unlocking automatically — returning you to the app now.</p>
+
+    <a class="btn" href="mynah://welcome">Return to Mynah</a>
+    <div class="hint">If the app doesn't reopen, switch to it manually — you're already unlocked. You can close this tab.</div>
+  </div>
+
+<script>
+  // animated waveform bars with staggered delays
+  const wave = document.getElementById('wave');
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement('span');
+    s.style.animationDelay = (i * 0.05) + 's';
+    s.style.opacity = 0.55 + Math.random() * 0.4;
+    wave.appendChild(s);
+  }
+  // auto-return to the app shortly after landing
+  setTimeout(() => { window.location.href = 'mynah://welcome'; }, 1600);
+</script>
+</body>
+</html>
